@@ -1,0 +1,6 @@
+Usinh AWS Lambda with AWS CLI
+
+Run commands:
+aws --version
+aws lambda list-functions
+aws lambda get-function --function-name my-function
