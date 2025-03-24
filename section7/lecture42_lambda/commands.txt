@@ -1,4 +1,5 @@
 Usinh AWS Lambda with AWS CLI
+Ref: AWS CLI command reference
 
 Run commands:
 aws --version

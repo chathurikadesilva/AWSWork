@@ -1,0 +1,9 @@
+Invoking AWS Lambda with AWS CLI using event object
+Ref: AWS CLI command reference
+
+Invoke commands:
+aws lambda invoke --function-name my-function --cli-binary-format raw-in-base64-out --payload file://event.json response.json
+
+
+Example to retrieve a log ID
+aws lambda invoke --function-name my-function out --log-type Tail
