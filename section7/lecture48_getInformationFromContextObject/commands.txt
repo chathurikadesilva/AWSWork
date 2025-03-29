@@ -1,0 +1,15 @@
+Get information from AWS lambda context object
+
+
+Update function code
+
+aws lambda update-function-code `
+   --function-name my-function2 `
+   --zip-file fileb://function-code.zip
+
+Invoke the lambda function using event json file
+aws lambda invoke --function-name my-function2 --cli-binary-format raw-in-base64-out --payload file://event.json response.json
+
+
+
+
