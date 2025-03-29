@@ -1,0 +1,62 @@
+Creating lambda function from CLI
+Ref: AWS CLI command reference
+Ref: AWS managed policies for Lambda features
+
+Invoke commands:
+Passes the policy in the command
+aws iam create-role --role-name lambda-ex --assume-role-policy-document '{"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
+
+Passes a json file with the policy
+aws iam create-role --role-name lambda-ex --assume-role-policy-document file://trust-policy.json
+
+Assigning policy to role - we need to attach a role to the above created role. In this case we are assigning the basic minimum policy needed.
+AWSLambdaBasicExecutionRole managed policy
+aws iam attach-role-policy --role-name lambda-ex --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+After creating the index.js file we need to create a zip file
+windows (this is only if one file is there)
+Compress-Archive index.js function.zip
+
+Create lambda function from cli
+1. We need to get the arn of the role we created earlier. To do that we need to execute the following command
+aws iam get-role --role-name lambda-ex  -> ARN : arn:aws:iam::710677533393:role/lambda-ex
+
+2. create function command
+aws lambda create-function `
+     --function-name my-function2 `
+     --runtime nodejs22.x `
+     --zip-file fileb://function.zip `
+     --handler index.handler `
+     --role arn:aws:iam::710677533393:role/lambda-ex
+
+
+Invoke the lambda function using event json file
+aws lambda invoke --function-name my-function2 --cli-binary-format raw-in-base64-out --payload file://event.json response.json
+
+Re-deploy lambda function if needed
+aws lambda update-function-code `
+   --function-name my-function2 `
+   --zip-file fileb://function.zip
+
+
+Getting logs
+
+This will get the log group of the function
+
+aws logs describe-log-groups `
+   --query logGroups[*].logGroupName    ---> /aws/lambda/my-function2
+
+This will get the log stream for that function
+
+aws logs describe-log-streams `
+   --log-group-name '/aws/lambda/my-function2' `
+   --query logStreams[*].logStreamName    -->   2025/03/29/[$LATEST]7812fb3d89a9497a8a30dc565a28f65e
+
+Below will get the logs for the above returned log stream
+aws logs get-log-events `
+   --log-group-name '/aws/lambda/my-function2' `
+   --log-stream-name '2025/03/29/[$LATEST]7812fb3d89a9497a8a30dc565a28f65e'
+
+
+Example to retrieve a log ID
+aws lambda invoke --function-name my-function2 out --log-type Tail

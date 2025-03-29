@@ -1,0 +1,22 @@
+Update the AWS Lambda function with dependencies using cli
+
+1. Install required depencies into node module
+
+Run command
+npm install aws-xray-sdk
+
+2. Zip the function code
+When zipping we need to zip the node modules folder, index.js, package.json, package.json lock files together. They need to be in the same hierachchy level
+
+3. Update function code
+
+aws lambda update-function-code `
+   --function-name my-function2 `
+   --zip-file fileb://function.zip
+
+Invoke the lambda function using event json file
+aws lambda invoke --function-name my-function2 --cli-binary-format raw-in-base64-out --payload file://event.json response.json
+
+
+
+
