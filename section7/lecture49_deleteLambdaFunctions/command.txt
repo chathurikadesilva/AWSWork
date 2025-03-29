@@ -1,0 +1,8 @@
+Delete AWS Lambda functions from CLI
+
+Get lambda functions
+aws lambda list-functions --max-items 10
+aws lambda get-function --function-name my-function
+
+aws lambda delete-function --function-name my-function
+aws lambda delete-function --function-name my-function2
