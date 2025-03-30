@@ -9,3 +9,4 @@ Example to retrieve a log ID
 aws lambda invoke --function-name my-function out --log-type Tail
 
 
+0476 502 922 
